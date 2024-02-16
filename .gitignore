@@ -1,3 +1,20 @@
+# Logs
+logs/
+*log
+
+# Allure
+allure-results
+allure-report
+
+# Swap files
+.swp
+
+# Mac
+.DS_Store
+
+# Environments
+# .env normally here
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
