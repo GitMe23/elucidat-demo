@@ -21,7 +21,7 @@ After installing the repo and Python 3, the required dependencies need to be ins
 ```bash
 python3 -m pip install -r requirements.txt
 ```
-### Run the tests with the 'behave' command:
+### Running the tests:
 Inside the repository, run the test script:
 ```bash
 sh run_tests.sh
