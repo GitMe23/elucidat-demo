@@ -43,6 +43,21 @@ def get_number_of_cards_on_page(driver):
     except:
         return 0
 
+def get_vote_confirmation_on_page(driver):
+    xpaths = [
+        "/html/body/div/div/div/div[6]/div/div/div/div[1]/div[1]/div[3]/div/h2/strong",
+        "/html/body/div/div/div/div[6]/div/div/div/div[1]/div/div[1]/div/h2/strong"
+    ]
+    
+    for xpath in xpaths:
+        element = driver.find_elements(By.XPATH, xpath)
+        if element:
+            confirmation_text = element[0].text
+            return confirmation_text
+    
+    print("Both XPaths failed to locate the element")
+    return None
+    
 def get_score_text_on_page(driver):
     try:
         element = WebDriverWait(driver, 2).until(
@@ -54,23 +69,29 @@ def get_score_text_on_page(driver):
 
 def click_on_case(driver, case):
     try:
-        WebDriverWait(driver, 2).until(
+        WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'card__overlay'))
         )
+        
         case_cards = driver.find_elements(By.CLASS_NAME, 'card__overlay')
-        case_cards[case - 1].click()
+        if case <= len(case_cards):
+            WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.CLASS_NAME, 'card__overlay'))
+            )
+            href = case_cards[case - 1].get_attribute('href')
+            if href:
+                driver.get(href)
     except Exception as e:
-        pass
+        print(f"An error occurred: {str(e)}")
     
-def click_div_with_text(driver, text):
+def click_option(driver, text):
     try:
-        element = WebDriverWait(driver, 2).until(
-            EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), '{text}')]"))
+        option = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
         )
-        element.click()
-        return True
+        option.click()
     except Exception as e:
-        return False
+        print(f"Error occurred: {str(e)}")
 
 def text_is_visible(driver, text):
     try:

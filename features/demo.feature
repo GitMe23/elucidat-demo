@@ -15,13 +15,13 @@ Feature: Finding the truth; Elucidat criminal justice training.
 @truth-003 
 Scenario Outline: Correct confirmation of user's vote
 Given I am on the case selection page
-  And I choose case: <case>
+  And I click on case: <case>
  When I submit: <vote>
  Then I should have the same vote confirmed in a pop-up window
 Examples:
 | case | vote       |
-| 1    | Guilty     |
-# | 2    | Not Guilty | 
+| 1    | GUILTY     |
+| 2    | NOT GUILTY | 
 
 
 

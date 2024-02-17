@@ -1,3 +1,4 @@
+import time
 from behave import *
 import utilities
 
@@ -30,21 +31,26 @@ def step_open_start_page(context):
     utilities.navigate_to_root(context.driver)
     utilities.click_by_id(context.driver, 'START')
 
-@given('I choose case: {case}')
-def step_choose_case(context, case):
-    utilities.click_on_case(context.driver, case)
+@given('I click on case: {case_number}')
+def step_click_case(context, case_number):
+    utilities.click_by_id(context.driver, f'CASE_{case_number}')
 
 @when('I submit: {vote}')
 def step_when(context, vote) :
-    context.vote = vote
+    context.vote = vote.strip('"')
     utilities.click_by_id(context.driver, 'JUDGE THIS')
-    utilities.click_div_with_text(context.driver, vote)
+    time.sleep(1)
+    utilities.click_by_id(context.driver, context.vote)
+    time.sleep(1)
     utilities.click_by_id(context.driver, 'VOTE')
+    time.sleep(1)
 
 @then('I should have the same vote confirmed in a pop-up window')
 def step_then(context) :
-    assert True
-    # assert utilities.text_is_visible(context.driver, 'NOT GUILTY!')
+    expected = f'{context.vote}!'
+    actual = utilities.get_vote_confirmation_on_page(context.driver)
+    assert actual == expected, f'Expected "{expected}", Actual: "{actual}"'
+    time.sleep(1)
 
 
 
