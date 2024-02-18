@@ -3,7 +3,11 @@ Example Python-behave test automation framework
 
 ## Setup checklist
 
-### Clone the repository
+### Change directory or clone the repository
+```bash
+cd python-behave-test-demo
+```
+Or
 ```bash
 git clone https://github.com/GitMe23/elucidat-demo.git
 ```
@@ -29,7 +33,7 @@ sh run_tests.sh
 
 ### Test report
 ###### -- OPTIONAL
-If you have Node Package Manager (npm) installed, install 'Allure' 
+If you have Node Package Manager (npm) installed, install 'Allure' to generate web app based reports.sh run  
 
 Inside the repository folder:
 ```bash
@@ -42,5 +46,9 @@ python3 -m pip install allure-behave
 You can run the test script with Allure reporting:
 ```bash
 sh run_with_allure.sh
+```
+See the report as a single index.html file at:
+```bash
+{path to repo}/allure-reports/index.html
 ```
 
