@@ -1,5 +1,5 @@
+import json
 import os
-from bs4 import BeautifulSoup
 import config
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -44,18 +44,13 @@ def get_number_of_cards_on_page(driver):
         return 0
 
 def get_vote_confirmation_on_page(driver):
-    xpaths = [
-        "/html/body/div/div/div/div[6]/div/div/div/div[1]/div[1]/div[3]/div/h2/strong",
-        "/html/body/div/div/div/div[6]/div/div/div/div[1]/div/div[1]/div/h2/strong"
-    ]
-    
+    xpaths = config.confirmation_xpaths
     for xpath in xpaths:
         element = driver.find_elements(By.XPATH, xpath)
         if element:
             confirmation_text = element[0].text
             return confirmation_text
-    
-    print("Both XPaths failed to locate the element")
+    print("Failed to locate confirmation message element")
     return None
     
 def get_score_text_on_page(driver):
@@ -102,3 +97,31 @@ def text_is_visible(driver, text):
     except:
         return False
 
+def write_environment():
+    properties_path = 'allure-results/environment.properties'
+    try:
+        if not os.path.exists(properties_path):
+            with open(properties_path, 'w') as properties:
+                properties.write(f"Course = {os.getenv('COURSE_NAME')}\n")
+                properties.write(f"URL = {os.getenv('ROOT_URL')}\n")
+                properties.write(f"Browser = {os.getenv('BROWSER')}")
+    except Exception as e:
+        print(f"Error creating environment.properties: {e}")
+
+def write_executor():
+    executor_path = 'allure-results/executor.json'
+    executor_data = {
+    "name": os.getenv("EXECUTOR_NAME", "Unknown"),
+    "buildName": os.getenv("EXECUTOR_BUILD_NAME", "Unknown"),
+    }
+    try:
+        if not os.path.exists(executor_path):
+            with open(executor_path, 'w') as executor_json:
+                json.dump(executor_data, executor_json, indent=4)
+        print(f"Executor information written to {executor_path}")
+    except Exception as e:
+        print(f"Error writing executor details: {e}")
+
+def write_properties():
+    write_environment()
+    write_executor()

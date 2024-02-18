@@ -8,3 +8,7 @@ CSS_selectors = {
     'JUDGE THIS': 'pa_5c9126fe434ba_p15564daa856-button__text',
     'VOTE': 'pa_5c9126fe47260_p15515116385-button__text',
 }
+confirmation_xpaths = [
+        "/html/body/div/div/div/div[6]/div/div/div/div[1]/div[1]/div[3]/div/h2/strong",
+        "/html/body/div/div/div/div[6]/div/div/div/div[1]/div/div[1]/div/h2/strong"
+    ]

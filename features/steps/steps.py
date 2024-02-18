@@ -1,4 +1,3 @@
-import time
 from behave import *
 import utilities
 
@@ -24,7 +23,7 @@ def step_then(context, string) :
 def step_then(context, int) :
     expected_text = f'Your score so far: {int}'
     actual_text = utilities.get_score_text_on_page(context.driver)
-    assert actual_text == expected_text, f'Expected "{expected_text}", "{actual_text}" on page'
+    assert actual_text == expected_text, f'Expected "{expected_text}", "Actual: {actual_text}"'
 
 @given('I am on the case selection page')
 def step_open_start_page(context):
@@ -39,18 +38,14 @@ def step_click_case(context, case_number):
 def step_when(context, vote) :
     context.vote = vote.strip('"')
     utilities.click_by_id(context.driver, 'JUDGE THIS')
-    time.sleep(1)
     utilities.click_by_id(context.driver, context.vote)
-    time.sleep(1)
     utilities.click_by_id(context.driver, 'VOTE')
-    time.sleep(1)
 
 @then('I should have the same vote confirmed in a pop-up window')
 def step_then(context) :
     expected = f'{context.vote}!'
     actual = utilities.get_vote_confirmation_on_page(context.driver)
     assert actual == expected, f'Expected "{expected}", Actual: "{actual}"'
-    time.sleep(1)
 
 
 

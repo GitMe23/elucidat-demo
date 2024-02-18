@@ -9,6 +9,11 @@ if [ ! -d "allure-results/history" ]; then
 fi
 
 behave -f allure_behave.formatter:AllureFormatter -o allure-results features
-cp allure-report/history/* allure-results/history
-allure generate --clean allure-results
-allure open
+
+if [ ! -d "allure-report/history" ]; then
+    cp allure-report/history/* allure-results/history
+fi
+
+allure generate --clean --single-file allure-results
+
+echo "Test report generated: allure-results/index.html"
